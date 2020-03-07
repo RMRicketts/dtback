@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/glue": "^7.0.0",
-    "@hapi/hapi": "^19.1.1"
+    "@hapi/hapi": "^19.1.1",
+    "@hapi/joi": "^17.1.0",
+    "lodash": "^4.17.15"
   }
 }

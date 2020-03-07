@@ -1,20 +1,23 @@
-'use strict'
-const Glue = require('@hapi/glue');
-const Manifest = require('./manifest');
+'use strict';
 
-process.on('unhandledRejection', (err) => {
+const Hapi = require('@hapi/hapi');
+const actions = require('./actions');
+
+process.on('unhandledRejection', err => {
   console.log(err);
   process.exit(1);
-})
+});
 
 const init = async () => {
-  
-  const options = { relativeTo: __dirname }
-  const server = Manifest.get('/', options)
-  
+  const options = {port: 3000, host: 'localhost'};
+
+  const server = Hapi.server(options);
+
+  actions(server)
+
   await server.start();
 
-  console.log('Server is running on %s',server.info.uri);
-}
+  console.log('Server is running on %s', server.info.uri);
+};
 
 init();
