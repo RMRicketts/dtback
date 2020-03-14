@@ -13,7 +13,7 @@ const init = async () => {
 
   const server = Hapi.server(options);
 
-  actions(server)
+  await actions(server)
 
   await server.start();
 

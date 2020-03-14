@@ -1,7 +1,7 @@
 module.exports.helloWorld = {
   method: 'GET',
-  path: '/',
+  path: '/name/{name?}',
   handler: (request, h) => {
-    return 'Hello '+request.params.name +'!';
+    return `Hello ${request.params.name}!`;
   },
 };
