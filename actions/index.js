@@ -3,8 +3,6 @@ const fs = require('fs').promises;
 const path = require('path');
 
 let getActions = async (merge, filePath) => {
-  merge = merge === undefined ? {} : merge;
-  filePath = filePath === undefined ? __dirname : filePath;
   try {
     let dir = await fs.opendir(filePath);
     for await (let dirent of dir) {
@@ -24,7 +22,7 @@ let getActions = async (merge, filePath) => {
 };
 
 module.exports = async server => {
-  let merged = await getActions();
+  let merged = await getActions({}, __dirname);
   for (let i of Object.keys(merged)) {
     server.route(merged[i]);
   }
