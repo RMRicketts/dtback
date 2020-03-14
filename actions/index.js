@@ -8,10 +8,10 @@ let getActions = async (merge, filePath) => {
   try {
     let dir = await fs.opendir(filePath);
     for await (let dirent of dir) {
-      if (dirent.isDirectory()) {
-        merge = await getActions(merge, path.join(filePath, dirent.name));
-      }
       let {name} = dirent;
+      if (dirent.isDirectory()) {
+        merge = await getActions(merge, path.join(filePath, name));
+      }
       if (dirent.isFile() && name.substr(name.length - 3, 3) === '.js') {
         let m = require(path.join(filePath, name));
         merge = _.merge(merge, m);
