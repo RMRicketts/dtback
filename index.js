@@ -2,6 +2,7 @@
 
 const Hapi = require('@hapi/hapi');
 const actions = require('./actions');
+const initialize = require('./initializers');
 
 process.on('unhandledRejection', err => {
   console.log(err);
@@ -13,7 +14,9 @@ const init = async () => {
 
   const server = Hapi.server(options);
 
-  await actions(server)
+  await initialize(server);
+
+  await actions(server);
 
   await server.start();
 
