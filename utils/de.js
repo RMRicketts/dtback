@@ -1,7 +1,8 @@
 const crypto = require('crypto');
+const {dtbackCipherAlg} = require('../../configs/config.js');
 
 module.exports.decrypt = (payload, secret, salt) => {
-  const alg = 'aes-256-cbc';
+  const alg = dtbackCipherAlg;
   const iv = new Buffer.from(payload.split(':')[0], 'hex');
   const encrypted = payload.split(':')[1];
   const key = crypto.scryptSync(secret, salt, 32);
