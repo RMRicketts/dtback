@@ -2,13 +2,13 @@ const Boom = require('@hapi/boom');
 const jwt = require('../../utils/jwt.js');
 
 module.exports = {
-  assign: 'auth',
-  method: (req, h) => {
+  assign: 'authProfile',
+  method: async (req, h) => {
     let accessToken;
     try {
       accessToken = req.headers.Authorization.split(' ')[0];
     } catch (e) {
-      Boom.unauthorized('Invalid Token');
+      return Boom.unauthorized('Invalid Token');
     }
     let payload;
     try {

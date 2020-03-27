@@ -3,6 +3,7 @@
 const Hapi = require('@hapi/hapi');
 const actions = require('./actions');
 const initialize = require('./initializers');
+const qs = require('qs');
 
 process.on('unhandledRejection', err => {
   console.log(err);
@@ -10,7 +11,7 @@ process.on('unhandledRejection', err => {
 });
 
 const init = async () => {
-  const options = {port: 3000, host: 'localhost'};
+  const options = {port: 3000, host: 'localhost', query: {parser: query => qs.parse(query)}};
 
   const server = Hapi.server(options);
 

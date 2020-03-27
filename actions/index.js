@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const _ = require('lodash');
 const fs = require('fs').promises;
@@ -12,7 +12,7 @@ let getActions = async (merge, filePath) => {
       if (dirent.isDirectory()) {
         merge = await getActions(merge, path.join(filePath, name));
       }
-      if (dirent.isFile() && name.substr(name.length - 3, 3) === '.js') {
+      if (dirent.isFile() && name.substr(name.length - 3, 3) === '.js' && name !== 'index.js') {
         let m = require(path.join(filePath, name));
         merge = _.merge(merge, m);
       }
