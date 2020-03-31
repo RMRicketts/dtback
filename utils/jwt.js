@@ -8,8 +8,7 @@ module.exports.sign = payload => {
   return jwt.sign(pkg, dtbackPK, {expiresIn: 60 * 60});
 };
 
-module.exports.verify = payload => {
-  payload = JSON.parse(payload);
-  let pkg = jwt.verify(payload, dtbackPK);
-  return JSON.parse(decrypt(pkg.data, dtbackDefaultSecret, dtbackDefaultSalt));
+module.exports.verify = token => {
+  let pkg = jwt.verify(token, dtbackPK);
+  return JSON.parse(de(pkg.data, dtbackDefaultSecret, dtbackDefaultSalt));
 };

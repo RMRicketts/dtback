@@ -1,6 +1,7 @@
 'use strict';
 const Boom = require('@hapi/boom');
 const Promise = require('bluebird');
+const WOS = require('../../models/wos');
 const _ = require('lodash');
 
 module.exports.getWos = {
@@ -49,9 +50,6 @@ module.exports.updateWos = {
   },
   handler: async (request, h) => {
     let {authProfile} = request.pre;
-    if (authProfile.roles.indexOf('dispatch') === -1) {
-      return Boom.unauthorized('go fuck yaself');
-    }
     let {payload} = request;
     let {wos} = request.server.app;
     try {
@@ -61,7 +59,29 @@ module.exports.updateWos = {
     } catch (e) {
       return Boom.badImplementation('Internal Error, Could not update wos');
     }
-
     return {success: true};
+  },
+};
+
+module.exports.createWos = {
+  method: 'POST',
+  path: '/api/v1/dispatch/orders/insert',
+  options: {
+    pre: [require('../../modules/auth/auth.js')],
+  },
+  handler: async (request, h) => {
+    let {authProfile} = request.pre;
+    let {wos} = request.server.app;
+    let res
+    try {
+      return Promise.mapSeries( request.payload.wos, wo => {
+        let wo = new WOS()
+        wo.create(request.payload);
+        res = await wos.insert(wo);
+      })
+    } catch(e) {
+      Boom.badImplementation('Could not insert wos')
+    }
+    return { _id: res.ops[0]._id }
   },
 };
