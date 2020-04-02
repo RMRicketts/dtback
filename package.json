@@ -8,7 +8,7 @@
   },
   "author": "Robert Ricketts",
   "license": "ISC",
-  "repository": "https://github.com/RMRicketts/dtback/blob/master/actions/index.js",
+  "repository": "https://github.com/RMRicketts/dtback",
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "@hapi/glue": "^7.0.0",
