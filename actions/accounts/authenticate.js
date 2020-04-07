@@ -23,7 +23,7 @@ module.exports.login = {
       { $limit: 1 }
     ]);
     if (userProfile.length === 0) {
-      Boom.unathorized("Invalid login");
+      return Boom.unathorized("Invalid login");
     }
     userProfile = userProfile[0];
     let salt =
@@ -34,7 +34,7 @@ module.exports.login = {
       .findOne({ userName: payload.userName, pw: hash(payload.pw, salt) })
       .project({ userName: 1, accountName: 1, roles: 1 });
     if (userProfile === null) {
-      Boom.unauthorized("Invalid login");
+      return Boom.unauthorized("Invalid login");
     }
     const token = sign(userProfile);
     return token;
@@ -60,7 +60,7 @@ module.exports.auth = {
       .findOne({ userName: payload.userName, pw: hash(payload.pw, salt) })
       .project({ userName: 1, accountName: 1, roles: 1, _id: 1 });
     if (userProfile === null) {
-      Boom.unauthorized("Invalid login");
+      return Boom.unauthorized("Invalid login");
     }
     const token = sign(userProfile);
     return token;
